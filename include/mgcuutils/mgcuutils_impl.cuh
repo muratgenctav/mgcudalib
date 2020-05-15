@@ -5,8 +5,7 @@
 
 #include <cmath>
 
-namespace mgcu::utils::kernels
-{
+namespace mgcu::utils::kernels {
     // GATHER kernel
     template<typename T>
     __global__
@@ -157,8 +156,7 @@ namespace mgcu::utils::kernels
     }
 }
 
-namespace mgcu::utils
-{
+namespace mgcu::utils {
     // GATHER function
     template<typename T>
     void gather(T * const arrOut, const T * const arrIn, const int * const arrIdx, const int numIdxs)

@@ -13,18 +13,15 @@
 
 #define checkCudaErrors(val) mgcu::checkCuda( (val), #val, __FILE__, __LINE__)
 
-namespace mgcu
-{
+namespace mgcu {
     /**
      * Class for exception handling.
      */
-    class mgcuError: public std::exception
-    {
+    class mgcuError: public std::exception {
     public:
         mgcuError(const std::string& msg) : e_msg(msg) { }
 
-        virtual const char * what() const throw()
-        {
+        virtual const char * what() const throw() {
             return e_msg.c_str();
         }
 
@@ -39,7 +36,7 @@ namespace mgcu
             os << "CUDA error at: " << file << ":" << line << std::endl
                << cudaGetErrorString(err) << " " << func << std::endl;
             
-            const string msg = os.str();
+            const std::string msg = os.str();
             throw (mgcuError(msg));
         }
     }
