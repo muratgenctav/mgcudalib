@@ -8,25 +8,25 @@
 #include <cuda_runtime_api.h>
 
 // LEVEL-1 BLAS FUNCTIONS
-namespace mgcu { namespace blas { namespace lvl1 { namespace kernels {
-    // DAXPY kernel
-    __global__ void daxpy(
-        const int n,
-        const double alpha,
-        const double * const x, 
-        double * const y) 
-    {
-        unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+namespace mgcu { namespace blas { namespace lvl1 { 
+    namespace kernels {
+        // DAXPY kernel
+        __global__ void daxpy(
+            const int n,
+            const double alpha,
+            const double * const x, 
+            double * const y) 
+        {
+            unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-        // check boundary
-        if (i >= n) return;
+            // check boundary
+            if (i >= n) return;
 
-        // compute
-        y[i] = alpha * x[i] + y[i];
-    }
-} } } }
+            // compute
+            y[i] = alpha * x[i] + y[i];
+        }
+    } 
 
-namespace mgcu { namespace blas { namespace lvl1 {
     // DAXPY function
     void daxpy(const int n, const double alpha, const double * const x, double * const y)
     {
@@ -36,4 +36,4 @@ namespace mgcu { namespace blas { namespace lvl1 {
         kernels::daxpy<<<numBlocks, numThreads>>>(n, alpha, x, y);
         cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
     }
-} } }
+} } }
