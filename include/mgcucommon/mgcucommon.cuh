@@ -21,16 +21,16 @@ namespace mgcu
     class mgcuError: public std::exception
     {
     public:
-        mgcuError(const string& msg) : e_msg(msg) { }
+        mgcuError(const std::string& msg) : e_msg(msg) { }
 
         virtual const char * what() const throw()
         {
-            return m_msg.c_str();
+            return e_msg.c_str();
         }
 
     private:
-        const string e_msg;
-    }
+        const std::string e_msg;
+    };
 
     template<typename T>
     void checkCuda(T err, const char* const func, const char* const file, const int line) {

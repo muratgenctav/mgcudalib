@@ -2,6 +2,7 @@
 #define MGCUUTILS_IMPL_H
 
 #include "mgcucommon/mgcucommon.cuh"
+#include "mgcuutils/mgcuutils.cuh"
 
 #include <cmath>
 

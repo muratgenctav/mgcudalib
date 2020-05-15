@@ -21,5 +21,5 @@ add_subdirectory(src)
 
 # Add test sourcer directory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-    add_subdirectory(test)
+    #add_subdirectory(test)
 endif()
