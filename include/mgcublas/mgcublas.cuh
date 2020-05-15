@@ -1,8 +1,7 @@
 #ifndef MGCUBLAS_H
 #define MGCUBLAS_H
 
-namespace mgcu::blas::lvl1
-{
+namespace mgcu { namespace blas { namespace lvl1 {
     // DAXPY
     /**
      * Scales vector x by alpha
@@ -20,6 +19,6 @@ namespace mgcu::blas::lvl1
         const double * const x, 
         double * const y
     );
-}
+} } }
 
 #endif

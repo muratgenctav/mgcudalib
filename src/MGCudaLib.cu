@@ -8,8 +8,7 @@
 #include <cuda_runtime_api.h>
 
 // LEVEL-1 BLAS FUNCTIONS
-namespace mgcu::blas::lvl1::kernels
-{
+namespace mgcu { namespace blas { namespace lvl1 { namespace kernels {
     // DAXPY kernel
     __global__ void daxpy(
         const int n,
@@ -25,10 +24,9 @@ namespace mgcu::blas::lvl1::kernels
         // compute
         y[i] = alpha * x[i] + y[i];
     }
-}
+} } } }
 
-namespace mgcu::blas::lvl1
-{
+namespace mgcu { namespace blas { namespace lvl1 {
     // DAXPY function
     void daxpy(const int n, const double alpha, const double * const x, double * const y)
     {
@@ -38,4 +36,4 @@ namespace mgcu::blas::lvl1
         kernels::daxpy<<<numBlocks, numThreads>>>(n, alpha, x, y);
         cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
     }
-}
+} } }

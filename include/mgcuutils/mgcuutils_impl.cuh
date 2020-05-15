@@ -5,7 +5,7 @@
 
 #include <cmath>
 
-namespace mgcu::utils::kernels {
+namespace mgcu { namespace utils { namespace kernels {
     // GATHER kernel
     template<typename T>
     __global__
@@ -154,9 +154,9 @@ namespace mgcu::utils::kernels {
             d_out[i] = d_in[i];
         }
     }
-}
+} } }
 
-namespace mgcu::utils {
+namespace mgcu { namespace utils {
     // GATHER function
     template<typename T>
     void gather(T * const arrOut, const T * const arrIn, const int * const arrIdx, const int numIdxs)
@@ -346,6 +346,6 @@ namespace mgcu::utils {
         checkCudaErrors(cudaFree(segIds));
         checkCudaErrors(cudaFree(tempArr));
     }
-}
+} }
 
 #endif

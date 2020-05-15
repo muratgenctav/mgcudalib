@@ -1,8 +1,7 @@
 #ifndef MGCUUTILS_H
 #define MGCUUTILS_H
 
-namespace mgcu::utils
-{
+namespace mgcu { namespace utils {
     // GATHER
     /**
      * Gathers selected elements of an array arrIn into a new array arrOut.
@@ -159,7 +158,7 @@ namespace mgcu::utils
         const scan_t scanType
     );
     
-}
+} }
 
 // include implementations
 #include "mgcuutils_impl.cuh"

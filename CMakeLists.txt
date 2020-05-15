@@ -14,11 +14,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set(CPACK_PROJECT_NAME ${PROJECT_NAME})
     set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
     include(CPack)
+    
+    set(CMAKE_VERBOSE_MAKEFILE ON)
 endif()
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Add library source directory
 add_subdirectory(src)
