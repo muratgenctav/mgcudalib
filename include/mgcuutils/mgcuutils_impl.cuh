@@ -130,7 +130,7 @@ namespace mgcu { namespace utils { namespace kernels {
 
     // Segmented SCAN kernel
     template<typename T>
-    __global__ void segscan(
+    __global__ void scanSeg(
         T * const d_out, 
         const T * const d_in,
         const int * d_seg,
