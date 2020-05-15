@@ -11,7 +11,7 @@
 namespace mgcu::blas::lvl1::kernels
 {
     // DAXPY kernel
-    __global__ void daxpy_(
+    __global__ void daxpy(
         const int n,
         const double alpha,
         const double * const x, 
@@ -35,7 +35,7 @@ namespace mgcu::blas::lvl1
         int numThreads = MAX_THREADS;
         int numBlocks = ceil((float) n / numThreads);
 
-        daxpy_<<<numBlocks, numThreads>>>(n, alpha, x, y);
+        kernels::daxpy<<<numBlocks, numThreads>>>(n, alpha, x, y);
         cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
     }
 }
