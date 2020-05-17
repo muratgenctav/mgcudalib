@@ -2,6 +2,8 @@
 #define MGCUUTILS_H
 
 namespace mgcu { namespace utils {
+    
+    
     // GATHER
     /**
      * Gathers selected elements of an array arrIn into a new array arrOut.
@@ -108,7 +110,54 @@ namespace mgcu { namespace utils {
         int offset, 
         T fillIn
     );
-    
+
+    // MAP
+    /**
+     * List of map operations
+     */
+    typedef enum
+    {
+        MAP_SUMMATION,          /**< += operation. */
+        MAP_SUBTRACTION,        /**< -= operation. */
+        MAP_MULTIPLICATION,     /**< *= operation. */
+        MAP_DIVISION            /**< /= operation. */
+    } map_t;
+
+    /**
+     * Applies the following element-wise operation:
+     * lhsArr[i] <op> rhsArr[i], i=0..arrLen
+     * 
+     * @param lhsArr [in, out] left operand array.
+     * @param rhsArr [in] right operand array.
+     * @param arrLen [in] length of both arrays.
+     * @param op [in] specifies operation.
+     * @see {@link map_t} 
+     */
+    template<typename T>
+    void map(
+        T * const lhsArr, 
+        const T * const rhsArr, 
+        const int arrLen, 
+        map_t op
+    );
+
+    /**
+     * Applies the following element-wise operation:
+     * lhsArr[i] <op> rhsConst, i=0..arrLen
+     * 
+     * @param lhsArr [in, out] left operand array.
+     * @param rhsConst [in] right operand value.
+     * @param arrLen [in] length of both arrays.
+     * @param op [in] specifies operation.
+     * @see {@link map_t} 
+     */
+    template<typename T>
+    void map(
+        T * const lhsArr, 
+        const T rhsVal, 
+        const int arrLen, 
+        map_t op
+    );
 
     // SCAN
     /**
@@ -125,9 +174,9 @@ namespace mgcu { namespace utils {
      * 
      * Implements Hillis&Steele scan algorithm.
      * 
-     * @param arr [in,out] Array to scan
-     * @param arrLen [in] Length of arr
-     * @param scanType [in] Type of scan
+     * @param arr [in,out] Array to scan.
+     * @param arrLen [in] Length of arr.
+     * @param scanType [in] Type of scan.
      * @see {@link scan_t} 
      */
     template<typename T>

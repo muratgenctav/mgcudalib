@@ -4,6 +4,7 @@
 #include "mgcucommon/mgcucommon.cuh"
 
 #include <cmath>
+#include <assert.h>
 
 namespace mgcu { namespace utils { namespace kernels {
     // GATHER kernel
@@ -80,8 +81,8 @@ namespace mgcu { namespace utils { namespace kernels {
     void shiftSeg(
         T * const d_out, 
         const T * const d_in,
-        const unsigned int * const d_seg,
-        const unsigned int size, 
+        const int * const d_seg,
+        const int size, 
         int n,
         T padVal)
     {
@@ -103,6 +104,83 @@ namespace mgcu { namespace utils { namespace kernels {
         }
     }
 
+    // MAP kernel (array op array)
+    template<typename T>
+    __global__ 
+    void map(
+        T * const d_out, 
+        const T * const d_in, 
+        const int size, 
+        map_t op)
+    {
+        unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+
+        // boundary check
+        if (i >= size) return;
+
+        // compute map operation
+        switch (op)
+        {
+        case MAP_SUMMATION:
+            d_out[i] += d_in[i];
+            break;
+
+        case MAP_SUBTRACTION:
+            d_out[i] -= d_in[i];
+            break;
+
+        case MAP_MULTIPLICATION:
+            d_out[i] *= d_in[i];
+            break;
+        
+        case MAP_DIVISION:
+            assert(d_in[i] != 0);
+            d_out[i] /= d_in[i];
+            break;
+        
+        default:
+            break;
+        }
+    }
+    
+    // MAP kernel (array op const)
+    template<typename T>
+    __global__ 
+    void map(
+        T * const d_out, 
+        const T val, 
+        const size_t size, 
+        map_t op)
+    {
+        unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+
+        // boundary check
+        if (i >= size) return;
+
+        // compute map operation
+        switch (op)
+        {
+        case MAP_SUMMATION:
+            d_out[i] += val;
+            break;
+
+        case MAP_SUBTRACTION:
+            d_out[i] -= val;
+            break;
+
+        case MAP_MULTIPLICATION:
+            d_out[i] *= val;
+            break;
+        
+        case MAP_DIVISION:
+            d_out[i] /= val;
+            break;
+        
+        default:
+            break;
+        }
+    }
+    
     // SCAN kernel
     template<typename T>
     __global__ void scan(
@@ -230,6 +308,30 @@ namespace mgcu { namespace utils {
 
         // kernel call
         kernels::shiftSeg<T><<<numBlocks, numThreads>>>(arrOut, arrIn, segIds, arrLen, offset, fillIn);
+        cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
+    }
+
+    // MAP function (array op array)
+    template<typename T>
+    void map(T * const lhsArr, const T * const rhsArr, const int arrLen, map_t op)
+    {
+        int numThreads = MAX_THREADS;
+        int numBlocks = ceil((float) arrLen / numThreads);
+
+        // kernel call
+        kernels::map<T><<numBlocks, numThreads>>>(lhsArr, rhsArr, arrLen, op);
+        cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
+    }
+
+    // MAP function (array op val)
+    template<typename T>
+    void map(T * const lhsArr, const T rhsVal, const int arrLen, map_t op)
+    {
+        int numThreads = MAX_THREADS;
+        int numBlocks = ceil((float) arrLen / numThreads);
+
+        // kernel call
+        kernels::map<T><<numBlocks, numThreads>>>(lhsArr, rhsVal, arrLen, op);
         cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
     }
 
