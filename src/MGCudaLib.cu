@@ -115,6 +115,7 @@ namespace mgcu { namespace blas {
 
             // free allocated device memory
             checkCudaErrors(cudaFree(tempProdArr));
+            checkCudaErrors(cudaFree(tempResArr));
             checkCudaErrors(cudaFree(aRowEndPtr));
         }
     }
