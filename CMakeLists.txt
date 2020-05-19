@@ -15,7 +15,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
     include(CPack)
     
-    #set(CMAKE_VERBOSE_MAKEFILE ON)
+    set(CMAKE_VERBOSE_MAKEFILE ON)
 endif()
 
 # Add library source directory
