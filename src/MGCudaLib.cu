@@ -89,16 +89,16 @@ namespace mgcu { namespace blas {
             mgcu::utils::gather<double>(tempProdArr, x, aCol, nnz);
 
             // make element-wise multiplication
-            mgcu::utils::map<double>(tempProdArr, aVal, nnz, MAP_MULTIPLICATION);
+            mgcu::utils::map<double>(tempProdArr, aVal, nnz, mgcu::utils::MAP_MULTIPLICATION);
 
             // compute row-wise accumulation
-            mgcu::utils::accumulateSeg<double>(tempProdArr, nnz, aRowPtr, m, SCAN_INCLUSIVE);
+            mgcu::utils::accumulateSeg<double>(tempProdArr, nnz, aRowPtr, m, mgcu::utils::SCAN_INCLUSIVE);
 
             // compute row-end positions
             int * aRowEndPtr;
             checkCudaErrors(cudaMalloc(&aRowEndPtr, m * sizeof(int)));
             mgcu::utils::shift<int>(aRowEndPtr, aRowPtr, m, -1, nnz);
-            mgcu::utils::map<int>(aRowEndPtr, 1, m, MAP_SUBTRACTION);
+            mgcu::utils::map<int>(aRowEndPtr, 1, m, mgcu::utils::MAP_SUBTRACTION);
 
             // gather values at the row ends to obtain the result of A*x
             double * tempResArr;
@@ -108,7 +108,7 @@ namespace mgcu { namespace blas {
             helpers::gatherMvResult(tempResArr, tempProdArr, aRowEndPtr, m);
 
             // scale y using beta (y = beta*y)
-            mgcu::utils::map<double>(y, beta, m, MAP_MULTIPLICATION);
+            mgcu::utils::map<double>(y, beta, m, mgcu::utils::MAP_MULTIPLICATION);
 
             // apply daxpy to obtain the result of y = alpha*A*x + beta*y 
             mgcu::blas::lvl1::daxpy(m, alpha, tempResArr, y);
