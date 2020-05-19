@@ -1,7 +1,7 @@
 
 # TEST SPMV
 # add mmio lib first
-add_executable(mmiolib mmio.c)
+add_library(mmiolib OBJECT mmio.c)
 # add test executable
 add_executable(test_spmv test_spmv.cu)
 # link mgcudalib, mmiolib and cuda libraries
