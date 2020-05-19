@@ -4,7 +4,7 @@
 #include_directories(${PROJECT_SOURCE_DIR})
 set(CUDA_SEPARABLE_COMPILATION ON)
 add_library(mmio OBJECT mmio.c mmio.h)
-add_executable(test_spmv $<TARGET_OBJECTS:mmio> test_spmv.cu)
+add_executable(test_spmv test_spmv.cu $<TARGET_OBJECTS:mmio>)
 # link mgcudalib and cuda libraries
 link_directories(/usr/local/cuda/lib64)
 target_link_libraries(test_spmv PRIVATE mmio mgcudalib cusparse cudart)
