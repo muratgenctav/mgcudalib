@@ -105,7 +105,7 @@ namespace mgcu { namespace blas {
             checkCudaErrors(cudaMalloc(&tempResArr, m * sizeof(double)));
             int numThreads = MAX_THREADS;
             int numBlocks = ceil((float) m / numThreads);
-            helpers::gatherMvResult(tempResArr, tempProdArr, aRowEndPtr, m);
+            helpers::gatherMvResult<double><<<numBlocks, numThreads>>>(tempResArr, tempProdArr, aRowEndPtr, m);
 
             // scale y using beta (y = beta*y)
             mgcu::utils::map<double>(y, beta, m, mgcu::utils::MAP_MULTIPLICATION);
