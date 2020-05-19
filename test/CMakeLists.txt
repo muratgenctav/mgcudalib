@@ -1,0 +1,12 @@
+
+# TEST SPMV
+# add mmio lib first
+add_executable(mmiolib mmio.c)
+# add test executable
+add_executable(test_spmv test_spmv.cu)
+# link mgcudalib, mmiolib and cuda libraries
+link_directories(/usr/local/cuda/lib64)
+target_link_libraries(test_spmv PRIVATE mgcudalib mmiolib cusparse cudart)
+# register test
+add_test(NAME test_spmv_row COMMAND test_spmv testrow.mtx)
+add_test(NAME test_spmv_col COMMAND test_spmv testrow.mtx -c)
