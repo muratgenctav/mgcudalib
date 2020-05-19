@@ -49,16 +49,16 @@ namespace mgcu { namespace blas {
             void gatherMvResult(
                 T * const d_out,
                 const T * const d_in,
-                const unsigned int * const d_pos,
-                const unsigned int nElements)
+                const int * const d_pos,
+                const int nElements)
             {
-                unsigned int idx = blockIdx.x * blockDim.x + threadIdx.x;
+                int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
                 // boundary check
                 if (idx >= nElements) return;
 
                 // select the input element at specified position
-                unsigned int pos = d_pos[idx];
+                int pos = d_pos[idx];
                 d_out[idx] = d_in[pos];
                 if ( (idx > 0) && (pos == d_pos[idx-1]) ){
                     // The row is empty

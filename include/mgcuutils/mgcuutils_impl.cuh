@@ -319,7 +319,7 @@ namespace mgcu { namespace utils {
         int numBlocks = ceil((float) arrLen / numThreads);
 
         // kernel call
-        kernels::map<T><<numBlocks, numThreads>>>(lhsArr, rhsArr, arrLen, op);
+        kernels::map<T><<<numBlocks, numThreads>>>(lhsArr, rhsArr, arrLen, op);
         cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
     }
 
