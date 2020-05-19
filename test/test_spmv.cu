@@ -225,7 +225,7 @@ int main(int argc, char **argv)
                 CUSPARSE_INDEX_BASE_ZERO),
                 "Error converting from CSR to CSC."
         );
-        mgcu::blas::lvl2::spmv<double>(
+        mgcu::blas::lvl2::spmv(
             m,n,nnz,
             alpha, beta,
             d_CscVal,
@@ -235,7 +235,7 @@ int main(int argc, char **argv)
             d_MyVectOut);
     }
     else {
-        mgcu::blas::lvl2::spmv<double>(
+        mgcu::blas::lvl2::spmv(
             m,n,nnz,
             alpha, beta,
             d_Val,
