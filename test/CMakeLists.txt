@@ -2,6 +2,7 @@
 # TEST SPMV
 # add test executable
 #include_directories(${PROJECT_SOURCE_DIR})
+set(CUDA_SEPARABLE_COMPILATION ON)
 add_executable(test_spmv test_spmv.cu mmio.h mmio.c)
 # link mgcudalib and cuda libraries
 link_directories(/usr/local/cuda/lib64)
