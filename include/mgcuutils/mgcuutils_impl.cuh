@@ -255,7 +255,7 @@ namespace mgcu { namespace utils {
         int numBlocks = ceil((float) numIdxs / numThreads);
 
         // kernel call
-        kernels::scatterConst(arrOut, arrLen, val, arrIdx, numIdxs);
+        kernels::scatterConst<T><<<numBlocks, numThreads>>>(arrOut, arrLen, val, arrIdx, numIdxs);
         cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
     }
 
@@ -331,7 +331,7 @@ namespace mgcu { namespace utils {
         int numBlocks = ceil((float) arrLen / numThreads);
 
         // kernel call
-        kernels::map<T><<numBlocks, numThreads>>>(lhsArr, rhsVal, arrLen, op);
+        kernels::map<T><<<numBlocks, numThreads>>>(lhsArr, rhsVal, arrLen, op);
         cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
     }
 
