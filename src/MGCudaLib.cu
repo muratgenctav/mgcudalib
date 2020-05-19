@@ -33,7 +33,7 @@ namespace mgcu { namespace blas {
         void daxpy(const int n, const double alpha, const double * const x, double * const y)
         {
             int numThreads = MAX_THREADS;
-            int numBlocks = ceil((float) n / numThreads);
+            int numBlocks = (int) ceil((float) n / numThreads);
 
             kernels::daxpy<<<numBlocks, numThreads>>>(n, alpha, x, y);
             cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
@@ -104,7 +104,7 @@ namespace mgcu { namespace blas {
             double * tempResArr;
             checkCudaErrors(cudaMalloc(&tempResArr, m * sizeof(double)));
             int numThreads = MAX_THREADS;
-            int numBlocks = ceil((float) m / numThreads);
+            int numBlocks = (int) ceil((float) m / numThreads);
             helpers::gatherMvResult<double><<<numBlocks, numThreads>>>(tempResArr, tempProdArr, aRowEndPtr, m);
 
             // scale y using beta (y = beta*y)

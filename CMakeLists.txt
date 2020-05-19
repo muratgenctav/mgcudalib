@@ -4,7 +4,8 @@ cmake_minimum_required(VERSION 3.1.0)
 # Project settings
 project(MGCudaLib VERSION 0.1.0
         DESCRIPTION "Basic GPU algorithms library"
-        LANGUAGES CXX CUDA)
+        LANGUAGES CUDA CXX)
+set(CMAKE_CUDA_STANDARD 11)
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)

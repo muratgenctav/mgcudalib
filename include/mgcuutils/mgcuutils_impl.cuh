@@ -240,7 +240,7 @@ namespace mgcu { namespace utils {
     void gather(T * const arrOut, const T * const arrIn, const int * const arrIdx, const int numIdxs)
     {
         int numThreads = MAX_THREADS;
-        int numBlocks = ceil((float) numIdxs / numThreads);
+        int numBlocks = (int) ceil((float) numIdxs / numThreads);
 
         // kernel call
         kernels::gather<T><<<numBlocks, numThreads>>>(arrOut, arrIn, arrIdx, numIdxs);
@@ -252,7 +252,7 @@ namespace mgcu { namespace utils {
     void scatterConst(T * const arrOut, const int arrLen, const T val, const int * arrIdx, const int numIdxs)
     {
         int numThreads = MAX_THREADS;
-        int numBlocks = ceil((float) numIdxs / numThreads);
+        int numBlocks = (int) ceil((float) numIdxs / numThreads);
 
         // kernel call
         kernels::scatterConst<T><<<numBlocks, numThreads>>>(arrOut, arrLen, val, arrIdx, numIdxs);
@@ -264,7 +264,7 @@ namespace mgcu { namespace utils {
     void shift(T * const arrOut, const T * const arrIn, const int arrLen, int offset, T fillIn)
     {
         int numThreads = MAX_THREADS;
-        int numBlocks = ceil((float) arrLen / numThreads);
+        int numBlocks = (int) ceil((float) arrLen / numThreads);
 
         // kernel call
         kernels::shift<T><<<numBlocks, numThreads>>>(arrOut, arrIn, arrLen, offset, fillIn);
@@ -304,7 +304,7 @@ namespace mgcu { namespace utils {
     void shiftSeg(T * const arrOut, const T * const arrIn, const int * segIds, const int arrLen, int offset, T fillIn)
     {
         int numThreads = MAX_THREADS;
-        int numBlocks = ceil((float) arrLen / numThreads);
+        int numBlocks = (int) ceil((float) arrLen / numThreads);
 
         // kernel call
         kernels::shiftSeg<T><<<numBlocks, numThreads>>>(arrOut, arrIn, segIds, arrLen, offset, fillIn);
@@ -316,7 +316,7 @@ namespace mgcu { namespace utils {
     void map(T * const lhsArr, const T * const rhsArr, const int arrLen, map_t op)
     {
         int numThreads = MAX_THREADS;
-        int numBlocks = ceil((float) arrLen / numThreads);
+        int numBlocks = (int) ceil((float) arrLen / numThreads);
 
         // kernel call
         kernels::map<T><<<numBlocks, numThreads>>>(lhsArr, rhsArr, arrLen, op);
@@ -328,7 +328,7 @@ namespace mgcu { namespace utils {
     void map(T * const lhsArr, const T rhsVal, const int arrLen, map_t op)
     {
         int numThreads = MAX_THREADS;
-        int numBlocks = ceil((float) arrLen / numThreads);
+        int numBlocks = (int) ceil((float) arrLen / numThreads);
 
         // kernel call
         kernels::map<T><<<numBlocks, numThreads>>>(lhsArr, rhsVal, arrLen, op);
@@ -340,7 +340,7 @@ namespace mgcu { namespace utils {
     void accumulate(T * const arr, const int arrLen, const scan_t scanType)
     {
         int numThreads = MAX_THREADS;
-        int numBlocks = ceil((float) arrLen / numThreads);
+        int numBlocks = (int) ceil((float) arrLen / numThreads);
 
         // allocate device memory for temporary array
         T * tempArr;
@@ -404,7 +404,7 @@ namespace mgcu { namespace utils {
         accumulate<int>(segIds, arrLen, SCAN_INCLUSIVE);
 
         // Compute segmented scan!!!!!!!!!!!!!!
-        numBlocks = ceil((float) arrLen / numThreads);
+        numBlocks = (int) ceil((float) arrLen / numThreads);
 
         // allocate device memory for temporary array
         T * tempArr;
@@ -422,7 +422,7 @@ namespace mgcu { namespace utils {
         }
 
         // run scan steps
-        unsigned int n = 1;
+        int n = 1;
         while (n < arrLen)
         {
             if (rdy)
