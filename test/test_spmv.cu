@@ -226,25 +226,23 @@ int main(int argc, char **argv)
                 "Error converting from CSR to CSC."
         );
         mgcu::blas::lvl2::spmv<double>(
-            d_MyVectOut, 
-            d_VectIn,
+            m,n,nnz,
+            alpha, beta,
             d_CscVal,
             d_CscRow,
             d_CscColPtr,
-            m,
-            n,
-            nnz);
+            d_VectIn,
+            d_MyVectOut);
     }
     else {
         mgcu::blas::lvl2::spmv<double>(
-            d_MyVectOut, 
-            d_VectIn,
+            m,n,nnz,
+            alpha, beta,
             d_Val,
             d_CooJ,
             d_CsrRowPtr,
-            m,
-            n,
-            nnz);
+            d_VectIn,
+            d_MyVectOut);
     }
 
     // Copy the result to host
