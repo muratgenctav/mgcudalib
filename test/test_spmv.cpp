@@ -6,9 +6,12 @@
 #include <cuda_runtime.h>
 #include <cuda_runtime_api.h>
 #include "cusparse.h"
-#include "mmio.h"
 #include "mgcucommon/mgcucommon.cuh"
 #include "mgcublas/mgcublas.cuh"
+
+extern "C" {
+    #include "mmio.h"
+}
 
 // Pointers (host)
 int * h_CooI = NULL;
@@ -116,7 +119,7 @@ int main(int argc, char **argv)
 
     // Create random input vector
     h_VectIn = (double *) malloc((size_t) n * sizeof(double));
-    srand(time(NULL));
+    srand((unsigned int) time(NULL));
     for (int i = 0; i < n; i++) {
         // h_VectIn[i] = rand() % RAND_MAX;
         h_VectIn[i] = 1.0f;
