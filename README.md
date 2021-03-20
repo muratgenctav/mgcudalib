@@ -1,2 +1,2 @@
 # mgcudalib
-May cuda library
+My cuda library
